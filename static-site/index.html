@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Northgate — Humanless Residential Parking Access</title>
+<meta name="description" content="Northgate reads plates at the gate, checks your household rules locally, and lifts the boom before you slow down. Resident-first, offline-capable vehicle access for estates and complexes." />
+<meta property="og:title" content="Northgate — Humanless Residential Parking Access" />
+<meta property="og:description" content="Plate recognition, local rules, and automatic gate opening. No fob, no app, no one at the desk." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <div class="brand">
+      <span class="logo">N</span>
+      <span class="brand-name">Northgate</span>
+      <span class="chip">Residential Access</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#flow">How it works</a>
+      <a href="#console">Console</a>
+      <a href="#cta">Roles</a>
+    </nav>
+    <a href="#cta" class="btn btn-solid btn-sm">Request a demo</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Humanless entry, resident-first</span>
+      <h1>The gate already knows you're here.</h1>
+      <p class="lede">
+        Northgate reads plates at the gate, checks them against your household rules, and lifts
+        the boom before you slow down. No fob, no app, no one at the desk — just quiet, audited
+        access for homes and small communities.
+      </p>
+      <div class="btn-row">
+        <a href="#cta" class="btn btn-solid">Request a demo</a>
+        <a href="#flow" class="btn btn-outline">See the entry flow</a>
+      </div>
+      <div class="meta-row">
+        <span>Offline-first gateway</span>
+        <span>Plate → rule → gate</span>
+        <span>Full audit trail</span>
+      </div>
+    </div>
+
+    <div class="gate-card">
+      <div class="gate-head">
+        <span class="mono-faint">Gate 01 · Camera West</span>
+        <span class="live"><i class="dot dot-allow pulse"></i>Live</span>
+      </div>
+
+      <div class="camera">
+        <div class="camera-floor"></div>
+        <div class="plate-wrap">
+          <div class="plate" id="plate">7 XKA 441</div>
+          <div class="plate-status" id="plateStatus"><i class="dot dot-allow"></i>Matched · Resident</div>
+        </div>
+        <div class="scan-line"></div>
+      </div>
+
+      <div class="boom">
+        <div class="boom-post"></div>
+        <div class="boom-arm" id="boomArm"></div>
+        <span class="mono-faint boom-label">Boom lift</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="flow" class="band">
+  <div class="wrap">
+    <span class="eyebrow">Automated entry</span>
+    <h2>One approach, three silent decisions.</h2>
+    <div class="cards">
+      <article class="card">
+        <div class="card-head"><span class="num">01</span><span class="mono-faint">Camera</span></div>
+        <h3>Plate detected</h3>
+        <p>The gateway camera captures and reads the plate in under 400 ms, even in low light or at speed.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><span class="num">02</span><span class="mono-faint">Rules engine</span></div>
+        <h3>Rules matched</h3>
+        <p>The plate is checked against resident, visitor and bay rules — locally, on the gateway, no round-trip required.</p>
+      </article>
+      <article class="card">
+        <div class="card-head"><span class="num">03</span><span class="mono-faint">Gate</span></div>
+        <h3>Gate opens</h3>
+        <p>The boom lifts and the event is logged with plate, bay and timestamp. Everything is traceable afterward.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="console" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Security console</span>
+        <h2>A live log of every movement.</h2>
+      </div>
+      <span class="mono-faint">Gateway online · 3 cameras</span>
+    </div>
+
+    <div class="console">
+      <div class="console-head">
+        <span>Access events · today</span>
+        <span class="streaming"><i class="dot dot-brass pulse"></i>Streaming</span>
+      </div>
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+</section>
+
+<section id="cta" class="band">
+  <div class="wrap cta-grid">
+    <div>
+      <h2 class="big">Bring quiet, certain access to your home.</h2>
+      <p class="lede">
+        A single gateway, a few cameras, and rules that hold whether or not there's a signal.
+        Set it once, then simply drive in.
+      </p>
+      <div class="btn-row">
+        <a href="#cta" class="btn btn-solid">Request a demo</a>
+        <a href="#cta" class="btn btn-outline">Talk to the team</a>
+      </div>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Who it's for</span>
+      <ul class="roles">
+        <li><span>Residents</span><span class="mono-faint">Auto entry</span></li>
+        <li><span>Security</span><span class="mono-faint">Live console</span></li>
+        <li><span>Admins</span><span class="mono-faint">Rules &amp; audit</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer">
+    <div class="brand"><span class="logo sm">N</span><span class="brand-name sm">Northgate</span></div>
+    <span class="mono-faint">Residential parking access · © 2026</span>
+  </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
