@@ -189,7 +189,7 @@ export const joinEstate = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { error, data: result } = await context.supabase.rpc("join_estate", {
       _code: data.code.trim(),
-      _unit_label: data.unitLabel?.trim() || null,
+      _unit_label: data.unitLabel?.trim() || undefined,
     });
     if (error) throw new Error(error.message);
     return result as { estate_id: string; estate_name: string; role: string };
