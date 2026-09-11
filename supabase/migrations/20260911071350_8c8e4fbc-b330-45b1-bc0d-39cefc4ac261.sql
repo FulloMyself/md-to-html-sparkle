@@ -1,0 +1,16 @@
+REVOKE EXECUTE ON FUNCTION public.handle_new_user() FROM PUBLIC, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.update_updated_at_column() FROM PUBLIC, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.is_super_admin(uuid) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.is_super_admin(uuid) TO authenticated;
+REVOKE EXECUTE ON FUNCTION public.is_estate_member(uuid, uuid) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.is_estate_member(uuid, uuid) TO authenticated;
+REVOKE EXECUTE ON FUNCTION public.is_estate_staff(uuid, uuid) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.is_estate_staff(uuid, uuid) TO authenticated;
+REVOKE EXECUTE ON FUNCTION public.is_estate_manager(uuid, uuid) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.is_estate_manager(uuid, uuid) TO authenticated;
+REVOKE EXECUTE ON FUNCTION public.shares_estate_with(uuid, uuid) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.shares_estate_with(uuid, uuid) TO authenticated;
+REVOKE EXECUTE ON FUNCTION public.has_role(uuid, public.app_role) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.has_role(uuid, public.app_role) TO authenticated;
+REVOKE EXECUTE ON FUNCTION public.join_estate(text, text) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.join_estate(text, text) TO authenticated;
