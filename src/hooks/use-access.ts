@@ -12,9 +12,6 @@ export type Estate = {
   id: string;
   name: string;
   address: string | null;
-  resident_code: string;
-  guard_code: string;
-  admin_code: string;
 };
 
 export type AccessContext = {
@@ -43,7 +40,7 @@ export async function fetchAccessContext(): Promise<AccessContext | null> {
     await Promise.all([
       supabase.from("profiles").select("full_name, email").eq("id", user.id).maybeSingle(),
       supabase.from("user_roles").select("role, estate_id").eq("user_id", user.id),
-      supabase.from("estates").select("id, name, address, resident_code, guard_code, admin_code"),
+      supabase.from("estates").select("id, name, address"),
       supabase.from("unit_residents").select("unit_id").eq("user_id", user.id).limit(1),
     ]);
 

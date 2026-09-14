@@ -179,7 +179,11 @@ export const resolveAccessEvent = createServerFn({ method: "POST" })
     return event;
   });
 
-/** Joins the signed-in person to an estate using one of its join codes. */
+/**
+ * Joins the signed-in person to an estate using one of its join codes.
+ * Join codes live in a locked table only the server can read, so this runs
+ * with the admin client after the caller's identity is verified.
+ */
 export const joinEstate = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: { code: string; unitLabel?: string }) => {
@@ -187,11 +191,96 @@ export const joinEstate = createServerFn({ method: "POST" })
     return input;
   })
   .handler(async ({ data, context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const userId = context.userId;
+    const code = data.code.trim().toUpperCase();
     const unitLabel = data.unitLabel?.trim();
-    const { error, data: result } = await context.supabase.rpc("join_estate", {
-      _code: data.code.trim(),
-      ...(unitLabel ? { _unit_label: unitLabel } : {}),
-    });
+
+    const { data: codeRow } = await supabaseAdmin
+      .from("estate_codes")
+      .select("estate_id, resident_code, guard_code, admin_code")
+      .or(
+        `resident_code.eq.${code},guard_code.eq.${code},admin_code.eq.${code}`,
+      )
+      .maybeSingle();
+
+    if (!codeRow) throw new Error("That join code is not recognised");
+
+    const role =
+      codeRow.admin_code.toUpperCase() === code
+        ? ("estate_admin" as const)
+        : codeRow.guard_code.toUpperCase() === code
+          ? ("guard" as const)
+          : ("resident" as const);
+
+    const { data: estate, error: estateError } = await supabaseAdmin
+      .from("estates")
+      .select("id, name")
+      .eq("id", codeRow.estate_id)
+      .single();
+    if (estateError) throw new Error(estateError.message);
+
+    const { error: roleError } = await supabaseAdmin
+      .from("user_roles")
+      .insert({ user_id: userId, role, estate_id: estate.id });
+    if (roleError && !roleError.message.includes("duplicate")) {
+      throw new Error(roleError.message);
+    }
+
+    if (role === "resident" && unitLabel) {
+      let unitId: string | null = null;
+      const { data: existingUnit } = await supabaseAdmin
+        .from("units")
+        .select("id")
+        .eq("estate_id", estate.id)
+        .ilike("label", unitLabel)
+        .maybeSingle();
+      unitId = existingUnit?.id ?? null;
+      if (!unitId) {
+        const { data: newUnit, error: unitError } = await supabaseAdmin
+          .from("units")
+          .insert({ estate_id: estate.id, label: unitLabel })
+          .select("id")
+          .single();
+        if (unitError) throw new Error(unitError.message);
+        unitId = newUnit.id;
+      }
+      await supabaseAdmin
+        .from("unit_residents")
+        .insert({ estate_id: estate.id, unit_id: unitId, user_id: userId, is_primary: true });
+    }
+
+    return { estate_id: estate.id, estate_name: estate.name, role };
+  });
+
+/** Join codes for an estate — only estate managers may read them. */
+export const getEstateCodes = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { estateId: string }) => {
+    if (!input.estateId) throw new Error("Estate is required");
+    return input;
+  })
+  .handler(async ({ data, context }) => {
+    // Verify the caller manages this estate using their own (RLS-scoped) client.
+    const { data: roles, error: roleError } = await context.supabase
+      .from("user_roles")
+      .select("role, estate_id")
+      .eq("user_id", context.userId);
+    if (roleError) throw new Error(roleError.message);
+
+    const allowed = (roles ?? []).some(
+      (r) =>
+        r.role === "super_admin" ||
+        (r.role === "estate_admin" && r.estate_id === data.estateId),
+    );
+    if (!allowed) throw new Error("Only estate managers can view join codes");
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: codes, error } = await supabaseAdmin
+      .from("estate_codes")
+      .select("resident_code, guard_code, admin_code")
+      .eq("estate_id", data.estateId)
+      .maybeSingle();
     if (error) throw new Error(error.message);
-    return result as { estate_id: string; estate_name: string; role: string };
+    return codes;
   });
