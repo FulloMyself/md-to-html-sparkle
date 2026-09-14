@@ -151,32 +151,23 @@ export type Database = {
       estates: {
         Row: {
           address: string | null
-          admin_code: string
           created_at: string
-          guard_code: string
           id: string
           name: string
-          resident_code: string
           updated_at: string
         }
         Insert: {
           address?: string | null
-          admin_code: string
           created_at?: string
-          guard_code: string
           id?: string
           name: string
-          resident_code: string
           updated_at?: string
         }
         Update: {
           address?: string | null
-          admin_code?: string
           created_at?: string
-          guard_code?: string
           id?: string
           name?: string
-          resident_code?: string
           updated_at?: string
         }
         Relationships: []
@@ -519,34 +510,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
-      is_estate_manager: {
-        Args: { _estate_id: string; _user_id: string }
-        Returns: boolean
-      }
-      is_estate_member: {
-        Args: { _estate_id: string; _user_id: string }
-        Returns: boolean
-      }
-      is_estate_staff: {
-        Args: { _estate_id: string; _user_id: string }
-        Returns: boolean
-      }
-      is_super_admin: { Args: { _user_id: string }; Returns: boolean }
-      join_estate: {
-        Args: { _code: string; _unit_label?: string }
-        Returns: Json
-      }
-      shares_estate_with: {
-        Args: { _target: string; _viewer: string }
-        Returns: boolean
-      }
+      [_ in never]: never
     }
     Enums: {
       access_decision: "allowed" | "denied" | "held"
