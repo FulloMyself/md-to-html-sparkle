@@ -4,6 +4,8 @@ import { useState } from "react";
 import { AppShell, Panel } from "@/components/app-shell";
 import { useAccess } from "@/hooks/use-access";
 import { supabase } from "@/integrations/supabase/client";
+import { useServerFn } from "@tanstack/react-start";
+import { getEstateCodes } from "@/lib/access.functions";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -77,6 +79,12 @@ function AdminPage() {
           .eq("estate_id", estateId!)
           .order("name")
       ).data ?? [],
+  });
+
+  const codes = useQuery({
+    queryKey: ["estate-codes", estateId],
+    enabled: !!estateId && !!access?.isManager,
+    queryFn: () => fetchCodes({ data: { estateId: estateId! } }),
   });
 
   const people = useQuery({
