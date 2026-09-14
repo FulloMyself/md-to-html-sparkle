@@ -181,15 +181,15 @@ function AdminPage() {
           <ul className="space-y-2 text-sm">
             <li className="flex justify-between">
               <span className="text-ink-soft">Residents</span>
-              <span className="font-mono">{estate?.resident_code}</span>
+              <span className="font-mono">{codes.data?.resident_code ?? "—"}</span>
             </li>
             <li className="flex justify-between">
               <span className="text-ink-soft">Security</span>
-              <span className="font-mono">{estate?.guard_code}</span>
+              <span className="font-mono">{codes.data?.guard_code ?? "—"}</span>
             </li>
             <li className="flex justify-between">
               <span className="text-ink-soft">Managers</span>
-              <span className="font-mono">{estate?.admin_code}</span>
+              <span className="font-mono">{codes.data?.admin_code ?? "—"}</span>
             </li>
           </ul>
           <p className="mt-4 text-xs text-ink-faint">
