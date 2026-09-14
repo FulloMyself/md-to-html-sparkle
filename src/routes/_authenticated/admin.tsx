@@ -26,6 +26,7 @@ function AdminPage() {
   const { data: access } = useAccess();
   const estateId = access?.estate?.id;
   const queryClient = useQueryClient();
+  const fetchCodes = useServerFn(getEstateCodes);
   const [unitLabel, setUnitLabel] = useState("");
   const [gateName, setGateName] = useState("");
   const [bayCode, setBayCode] = useState("");
