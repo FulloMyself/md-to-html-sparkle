@@ -178,7 +178,7 @@ function AdminPage() {
     );
   }
 
-  const estate = access.estate;
+  
 
   return (
     <AppShell
