@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -98,12 +98,12 @@ function Index() {
               Roles
             </a>
           </nav>
-          <a
-            href="#cta"
+          <Link
+            to="/auth"
             className="rounded-[min(1vw,10px)] bg-ink px-4 py-2 font-sans text-sm font-medium text-paper transition-colors hover:bg-ink/90"
           >
-            Request a demo
-          </a>
+            Sign in
+          </Link>
         </div>
       </header>
 
@@ -123,12 +123,12 @@ function Index() {
               quiet, audited access for homes and small communities.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a
-                href="#cta"
+              <Link
+                to="/auth"
                 className="inline-flex items-center gap-2 rounded-[min(1vw,10px)] bg-ink px-5 py-3 font-sans text-sm font-medium text-paper transition-colors hover:bg-ink/90"
               >
-                Request a demo
-              </a>
+                Open the system
+              </Link>
               <a
                 href="#flow"
                 className="inline-flex items-center gap-2 rounded-[min(1vw,10px)] border border-line px-5 py-3 font-sans text-sm font-medium text-ink transition-colors hover:bg-paper-deep/60"
@@ -297,12 +297,12 @@ function Index() {
                 signal. Set it once, then simply drive in.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a
-                  href="#cta"
+                <Link
+                  to="/auth"
                   className="inline-flex items-center gap-2 rounded-[min(1vw,10px)] bg-ink px-5 py-3 font-sans text-sm font-medium text-paper transition-colors hover:bg-ink/90"
                 >
-                  Request a demo
-                </a>
+                  Create your account
+                </Link>
                 <a
                   href="#cta"
                   className="inline-flex items-center gap-2 rounded-[min(1vw,10px)] border border-line px-5 py-3 font-sans text-sm font-medium text-ink transition-colors hover:bg-paper-deep/60"
