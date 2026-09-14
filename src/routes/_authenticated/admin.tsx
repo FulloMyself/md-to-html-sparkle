@@ -4,6 +4,8 @@ import { useState } from "react";
 import { AppShell, Panel } from "@/components/app-shell";
 import { useAccess } from "@/hooks/use-access";
 import { supabase } from "@/integrations/supabase/client";
+import { useServerFn } from "@tanstack/react-start";
+import { getEstateCodes } from "@/lib/access.functions";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -24,6 +26,7 @@ function AdminPage() {
   const { data: access } = useAccess();
   const estateId = access?.estate?.id;
   const queryClient = useQueryClient();
+  const fetchCodes = useServerFn(getEstateCodes);
   const [unitLabel, setUnitLabel] = useState("");
   const [gateName, setGateName] = useState("");
   const [bayCode, setBayCode] = useState("");
@@ -77,6 +80,12 @@ function AdminPage() {
           .eq("estate_id", estateId!)
           .order("name")
       ).data ?? [],
+  });
+
+  const codes = useQuery({
+    queryKey: ["estate-codes", estateId],
+    enabled: !!estateId && !!access?.isManager,
+    queryFn: () => fetchCodes({ data: { estateId: estateId! } }),
   });
 
   const people = useQuery({
@@ -169,7 +178,7 @@ function AdminPage() {
     );
   }
 
-  const estate = access.estate;
+  
 
   return (
     <AppShell
@@ -181,15 +190,15 @@ function AdminPage() {
           <ul className="space-y-2 text-sm">
             <li className="flex justify-between">
               <span className="text-ink-soft">Residents</span>
-              <span className="font-mono">{estate?.resident_code}</span>
+              <span className="font-mono">{codes.data?.resident_code ?? "—"}</span>
             </li>
             <li className="flex justify-between">
               <span className="text-ink-soft">Security</span>
-              <span className="font-mono">{estate?.guard_code}</span>
+              <span className="font-mono">{codes.data?.guard_code ?? "—"}</span>
             </li>
             <li className="flex justify-between">
               <span className="text-ink-soft">Managers</span>
-              <span className="font-mono">{estate?.admin_code}</span>
+              <span className="font-mono">{codes.data?.admin_code ?? "—"}</span>
             </li>
           </ul>
           <p className="mt-4 text-xs text-ink-faint">

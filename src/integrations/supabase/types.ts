@@ -148,6 +148,35 @@ export type Database = {
           },
         ]
       }
+      estate_codes: {
+        Row: {
+          admin_code: string
+          estate_id: string
+          guard_code: string
+          resident_code: string
+        }
+        Insert: {
+          admin_code: string
+          estate_id: string
+          guard_code: string
+          resident_code: string
+        }
+        Update: {
+          admin_code?: string
+          estate_id?: string
+          guard_code?: string
+          resident_code?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "estate_codes_estate_id_fkey"
+            columns: ["estate_id"]
+            isOneToOne: true
+            referencedRelation: "estates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       estates: {
         Row: {
           address: string | null
